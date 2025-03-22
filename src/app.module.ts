@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import configurations from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from 'db/data-source';
+import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { dataSourceOptions } from 'db/data-source';
       load: [configurations]
     }),
       TypeOrmModule.forRoot(dataSourceOptions),
+      GenresModule
     ],
   controllers: [AppController],
   providers: [AppService],
