@@ -6,6 +6,5 @@ export class CreateGenreDto {
   name: string;
 
   @IsInt()
-  @IsNotEmpty()
-  external_id: number;
+  external_id?: number;
 }
