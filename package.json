@@ -9,6 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "init-db": "ts-node src/scripts/init-database.ts",
+    "seed": "ts-node db/seed/database-seed.ts",
     "start": "nest start",
     "start:dev": "npm run init-db && nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -25,6 +26,7 @@
     "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
+    "@nestjs/axios": "^4.0.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.1",
     "@nestjs/core": "^11.0.1",
@@ -34,6 +36,7 @@
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.7",
     "pg": "^8.14.1",
+    "axios": "^1.8.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.21"
