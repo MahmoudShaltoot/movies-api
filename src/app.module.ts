@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import configurations from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dataSourceOptions } from 'db/data-source';
+import { dataSourceOptions } from '../db/data-source';
 import { GenresModule } from './genres/genres.module';
 import { TmdbService } from './tmdb/tmdb.service';
 import { TmdbModule } from './tmdb/tmdb.module';
