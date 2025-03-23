@@ -9,6 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "init-db": "ts-node src/scripts/init-database.ts",
+    "seed": "ts-node db/seed/database-seed.ts",
     "start": "nest start",
     "start:dev": "npm run init-db && nest start --watch",
     "start:debug": "nest start --debug --watch",
