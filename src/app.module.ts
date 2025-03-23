@@ -6,6 +6,9 @@ import configurations from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from 'db/data-source';
 import { GenresModule } from './genres/genres.module';
+import { TmdbService } from './tmdb/tmdb.service';
+import { TmdbModule } from './tmdb/tmdb.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -14,9 +17,11 @@ import { GenresModule } from './genres/genres.module';
       load: [configurations]
     }),
       TypeOrmModule.forRoot(dataSourceOptions),
-      GenresModule
+      GenresModule,
+      TmdbModule,
+      HttpModule
     ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TmdbService],
 })
 export class AppModule {}
