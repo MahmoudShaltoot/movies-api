@@ -5,9 +5,9 @@ export class Genre {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  external_id: number;
+  @Column({ nullable: true })
+  external_id?: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 }
