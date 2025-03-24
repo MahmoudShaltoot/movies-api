@@ -34,15 +34,15 @@ export class MoviesService {
   async findOne(id: number): Promise<Movie> {
     const movie = await this.movieRepository.findOneBy({ id })
     if (!movie) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Movie with ID ${id} not found`);
     }
     return movie;
   }
 
   async update(id: number, updateMovieDto: UpdateMovieDto): Promise<UpdateResult> {
-    const movie = this.movieRepository.findOneBy({ id })
+    const movie = await this.movieRepository.findOneBy({ id })
     if (!movie) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Movie with ID ${id} not found`);
     }
     return this.movieRepository.update({ id }, updateMovieDto)
   }
