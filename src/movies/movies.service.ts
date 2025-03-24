@@ -1,22 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Movie } from './entities/movie.entity';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class MoviesService {
-  create(createMovieDto: CreateMovieDto) {
-    return 'This action adds a new movie';
+  constructor(
+    @InjectRepository(Movie)
+    private readonly movieRepository: Repository<Movie>,
+  ) { }
+
+  async create(createMovieDto: CreateMovieDto): Promise<Movie> {
+    const isExist = await this.movieRepository.findOne({ 
+      where: [
+        { title: createMovieDto.title },
+        { original_title: createMovieDto.original_language },
+        { poster_path: createMovieDto.poster_path }
+      ]
+    })    
+    if (isExist) {
+      throw new ConflictException('Movie already exist, Please check [ "Title" , "original_title" and "poster_path"')
+    }
+    const movie = await this.movieRepository.create(createMovieDto)
+    return this.movieRepository.save(movie)
   }
 
-  findAll() {
+  async findAll(): Promise<Movie[]> {
+    return this.movieRepository.find()
   }
 
-  findOne(id: number) {
+  async findOne(id: number): Promise<Movie> {
+    const movie = await this.movieRepository.findOneBy({ id })
+    if (!movie) {
+      throw new NotFoundException();
+    }
+    return movie;
   }
 
-  update(id: number, updateMovieDto: UpdateMovieDto) {
+  async update(id: number, updateMovieDto: UpdateMovieDto): Promise<UpdateResult> {
+    const movie = this.movieRepository.findOneBy({ id })
+    if (!movie) {
+      throw new NotFoundException();
+    }
+    return this.movieRepository.update({ id }, updateMovieDto)
   }
 
-  remove(id: number) {
+  async remove(id: number): Promise<DeleteResult> {
+    return this.movieRepository.delete({ id })
   }
 }
