@@ -9,6 +9,7 @@ import { GenresModule } from './genres/genres.module';
 import { TmdbService } from './tmdb/tmdb.service';
 import { TmdbModule } from './tmdb/tmdb.module';
 import { HttpModule } from '@nestjs/axios';
+import { MoviesModule } from './movies/movies.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { HttpModule } from '@nestjs/axios';
       TypeOrmModule.forRoot(dataSourceOptions),
       GenresModule,
       TmdbModule,
-      HttpModule
+      HttpModule,
+      MoviesModule
     ],
   controllers: [AppController],
   providers: [AppService, TmdbService],
