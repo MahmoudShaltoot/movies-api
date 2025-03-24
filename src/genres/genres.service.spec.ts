@@ -13,7 +13,8 @@ describe('GenresService', () => {
       create: jest.fn().mockImplementation((createGenreDto) => createGenre(createGenreDto)),
       save: jest.fn().mockImplementation((createGenreDto) => createGenre(createGenreDto)),
       find: jest.fn().mockResolvedValue([createGenre(), createGenre()]),
-      findOneByOrFail: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Comedy' }))
+      findOneByOrFail: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Comedy' })),
+      findOneBy: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Comedy' })),
     };
 
     const module: TestingModule = await Test.createTestingModule({

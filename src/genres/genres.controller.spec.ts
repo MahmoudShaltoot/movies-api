@@ -14,6 +14,7 @@ describe('GenresController', () => {
       findAll: jest.fn().mockResolvedValue([createGenre(), createGenre()]),
       find: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Comedy' })),
       createGenre: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Horror' })),
+      findById: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Comedy' })),
     };
 
     const module: TestingModule = await Test.createTestingModule({
