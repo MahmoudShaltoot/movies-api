@@ -19,5 +19,5 @@ RUN npm run build
 # Expose the port your NestJS app will run on (default is 3000)
 EXPOSE 3000
 
-# Run the NestJS app in production mode
-CMD ["npm", "run", "start:dev"]
+# Run test cases before starting the app
+CMD npm run test & npm run start:dev
