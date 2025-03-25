@@ -20,7 +20,10 @@ export class TmdbService {
   private readonly apiUrl;
   private readonly apiKey;
 
-  constructor(private readonly httpService: HttpService, private readonly configService: ConfigService) {
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService
+  ) {
     this.apiUrl = configService.get<string>('TMDB_API_URL');
     this.apiKey = configService.get<string>('TMDB_API_KEY');
   }
