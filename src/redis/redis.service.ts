@@ -16,13 +16,14 @@ export class RedisService {
     });
   }
 
-  async setHashKey(key: string, value: { id: number, external_id: number; title: string; original_title: string; poster: string; genres: string[] }): Promise<void> {
+  async setHashKey(key: string, value: { id: number, title: string; original_title: string; original_language: string, poster_path: string; genre_ids: number[] }): Promise<void> {
     await this.redis.hmset(key, {
-      external_id: value.external_id,
+      external_id: value.id,
       title: value.title,
       original_title: value.original_title,
-      poster: value.poster,
-      genres: JSON.stringify(value.genres),
+      original_language: value.original_language,
+      poster_path: value.poster_path,
+      genre_ids: JSON.stringify(value.genre_ids),
     });
   }
 
@@ -32,6 +33,10 @@ export class RedisService {
       result.genres = JSON.parse(result.genres);
     }
     return result;
+  }
+
+  async iskeyExist(key: string) {
+    return this.redis.exists(key)
   }
 }
 

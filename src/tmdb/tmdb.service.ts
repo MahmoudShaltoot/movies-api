@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import Bottleneck from 'bottleneck';
+import { RedisService } from 'src/redis/redis.service';
+import * as _ from 'lodash'
 
 // Number of pages to fetch, default = 10 pages to avoid overwhelming TMDB quota  
 const MAX_PAGES_TO_FETCH = process.env.MAX_PAGES_TO_FETCH === "Infinity"
@@ -22,23 +24,35 @@ export class TmdbService {
 
   constructor(
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly redisService: RedisService
   ) {
     this.apiUrl = configService.get<string>('TMDB_API_URL');
     this.apiKey = configService.get<string>('TMDB_API_KEY');
   }
 
-  async syncTMDBmovies() {    
-    let pageDate, page = 0;
+  async syncTMDBmovies() {
+    let pageDate: TmdbResponse, page = 0;
     do {
       await limiter.schedule(async () => {
-        pageDate = await this.getPopularMovies(page + 1);        
-        page++;
+        page++; // starting page is page one
+
+        pageDate = await this.getPopularMovies(page);
+
+        pageDate.results.forEach(async movie => {
+          const isExist = await this.redisService.iskeyExist(`movie_${movie.id}`)
+          if (!isExist) {
+            await this.redisService.setHashKey(
+              `movie_${movie.id}`,
+              _.pick(movie, ['id', 'title', 'original_title', 'original_language', 'poster_path', 'genre_ids']))
+          }
+        });
       })
+      // @ts-ignore
     } while (pageDate.results.length > 0 && (page < MAX_PAGES_TO_FETCH))
   }
 
-  async getPopularMovies(page: number = 1) {
+  async getPopularMovies(page: number = 1): Promise<TmdbResponse> {
     const url = `${this.apiUrl}/discover/movie?api_key=${this.apiKey}&page=${page}&sort_by=popularity.desc`;
     return (await firstValueFrom(this.httpService.get(url))).data;
   }
