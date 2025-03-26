@@ -10,6 +10,8 @@ import { TmdbService } from './tmdb/tmdb.service';
 import { TmdbModule } from './tmdb/tmdb.module';
 import { HttpModule } from '@nestjs/axios';
 import { MoviesModule } from './movies/movies.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { RedisService } from './redis/redis.service';
 
 @Module({
   imports: [
@@ -18,12 +20,13 @@ import { MoviesModule } from './movies/movies.module';
       load: [configurations]
     }),
       TypeOrmModule.forRoot(dataSourceOptions),
+      CacheModule.register({isGlobal: true}),
       GenresModule,
       TmdbModule,
       HttpModule,
       MoviesModule
     ],
   controllers: [AppController],
-  providers: [AppService, TmdbService],
+  providers: [AppService, TmdbService, RedisService],
 })
 export class AppModule {}
