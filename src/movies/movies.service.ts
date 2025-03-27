@@ -4,7 +4,7 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-
+import * as _ from 'lodash'
 @Injectable()
 export class MoviesService {
   constructor(
@@ -13,18 +13,38 @@ export class MoviesService {
   ) { }
 
   async create(createMovieDto: CreateMovieDto): Promise<Movie> {
-    const isExist = await this.movieRepository.findOne({ 
+    const isExist = await this.movieRepository.findOne({
       where: [
         { title: createMovieDto.title },
         { original_title: createMovieDto.original_language },
         { poster_path: createMovieDto.poster_path }
       ]
-    })    
+    })
     if (isExist) {
       throw new ConflictException('Movie already exist, Please check [ "Title" , "original_title" and "poster_path"')
     }
     const movie = await this.movieRepository.create(createMovieDto)
     return this.movieRepository.save(movie)
+  }
+
+  async saveMovieMessage(message: TmdbMovie): Promise<Movie> {
+    console.log('creating new movie for message:', message);
+
+    const isExist = await this.movieRepository.findOne({
+      where: [
+        { external_id: message.id },
+        { title: message.title },
+        { original_title: message.original_language }]
+    });
+    if (isExist) {
+      throw new ConflictException(`Movie already exists, please check if a movie with title:${message.title} or original_title: ${message.original_title} exist`);
+    }
+    const movieToCreate = _.pick(message, ['title', 'original_title', 'original_language', 'poster_path', 'genre_ids', 'release_date',
+      'overview',
+    ]);
+
+    const movie = this.movieRepository.create({ ...movieToCreate, external_id: message.id });
+    return this.movieRepository.save(movie);
   }
 
   async findAll(): Promise<Movie[]> {
