@@ -13,6 +13,7 @@ import { MoviesModule } from './movies/movies.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisService } from './redis/redis.service';
 import { UserModule } from './user/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { UserModule } from './user/users.module';
       TmdbModule,
       HttpModule,
       MoviesModule,
-      UserModule
+      UserModule,
+      AuthModule
     ],
   controllers: [AppController],
   providers: [AppService, TmdbService, RedisService],

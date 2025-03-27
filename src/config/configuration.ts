@@ -6,4 +6,5 @@ export default () => ({
     REDIS_USERNAME: process.env.REDIS_USERNAME,
     REDIS_PASSWORD: process.env.REDIS_PASSWORD,
     REDIS_DATABASE_INDEX: parseInt(process.env.REDIS_DATABASE_INDEX || '0', 10), // default database index = 0
+    JWT_SECRET: process.env.JWT_SECRET
 });
