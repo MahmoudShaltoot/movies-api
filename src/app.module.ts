@@ -12,7 +12,7 @@ import { HttpModule } from '@nestjs/axios';
 import { MoviesModule } from './movies/movies.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisService } from './redis/redis.service';
-import { UserModule } from './user/user.module';
+import { UserModule } from './user/users.module';
 
 @Module({
   imports: [
