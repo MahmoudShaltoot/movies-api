@@ -1,10 +1,11 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import Bottleneck from 'bottleneck';
 import { RedisService } from 'src/redis/redis.service';
 import * as _ from 'lodash'
+import { ClientProxy } from '@nestjs/microservices';
 
 // Number of pages to fetch, default = 10 pages to avoid overwhelming TMDB quota  
 const MAX_PAGES_TO_FETCH = process.env.MAX_PAGES_TO_FETCH === "Infinity"
@@ -25,7 +26,8 @@ export class TmdbService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
-    private readonly redisService: RedisService
+    private readonly redisService: RedisService,
+    @Inject('RABBITMQ_SERVICE') private readonly clientProxy: ClientProxy,
   ) {
     this.apiUrl = configService.get<string>('TMDB_API_URL');
     this.apiKey = configService.get<string>('TMDB_API_KEY');
@@ -45,6 +47,10 @@ export class TmdbService {
             await this.redisService.setHashKey(
               `movie_${movie.id}`,
               _.pick(movie, ['id', 'title', 'original_title', 'original_language', 'poster_path', 'genre_ids']))
+
+            this.clientProxy.emit('new-movie', movie);
+          } else {
+            console.log(`Movie "${movie.title}" already exist, external_id: ${movie.id}`);
           }
         });
       })
