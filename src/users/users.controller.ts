@@ -7,11 +7,6 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly UsersService: UsersService) { }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.UsersService.create(createUserDto);
-  }
-
   @Get()
   findAll(@Query('page') page: number = 0, @Query('pageSize') pageSize: number = 10,) {
     return this.UsersService.findAll(page, pageSize);
