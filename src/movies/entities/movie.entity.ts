@@ -32,11 +32,11 @@ export class Movie {
 
   @Column({ default: 0 })
   @Min(0)
-  vote_count: Number;
+  vote_count: number;
 
   @Column({ default: 0 })
   @Min(0)
-  average_rating: Number;
+  average_rating: number;
 
   @OneToMany(() => MoviesUsersRating, (rating) => rating.movie)
   ratings: MoviesUsersRating[];
