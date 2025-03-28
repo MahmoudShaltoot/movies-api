@@ -27,6 +27,19 @@ services:
     volumes:
       - redis_data:/data # Persist Redis data (optional)
 
+  # RabbitMQ service
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # RabbitMQ port
+      - "15672:15672" # Management UI port
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    networks:
+      - backend
+
   # NestJS application service
   nestjs-app:
     build: .
@@ -39,11 +52,13 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME} 
-      REDIS_HOST: ${REDIS_HOST} # Use the service name of the Redis container
+      REDIS_HOST: redis # Use the service name of the Redis container
       REDIS_PORT: 6379
+      RABBITMQ_URL: amqp://rabbitmq
     depends_on:
       - postgres
       - redis
+      - rabbitmq
     networks:
       - backend
 
