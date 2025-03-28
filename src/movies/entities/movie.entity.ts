@@ -1,4 +1,4 @@
-import { Min } from "class-validator";
+import { Max, Min } from "class-validator";
 import { MoviesUsersRating } from "../../movies-users-rating/entities/movies-users-rating.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 @Entity('movies')
@@ -32,11 +32,12 @@ export class Movie {
 
   @Column({ default: 0 })
   @Min(0)
-  vote_count: Number;
+  vote_count: number;
 
-  @Column({ default: 0 })
+  @Column({ type: 'float' , default: 0 })
   @Min(0)
-  average_rating: Number;
+  @Max(10)
+  average_rating: number;
 
   @OneToMany(() => MoviesUsersRating, (rating) => rating.movie)
   ratings: MoviesUsersRating[];

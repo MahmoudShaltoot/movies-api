@@ -70,4 +70,38 @@ export class MoviesService {
   async remove(id: number): Promise<DeleteResult> {
     return this.movieRepository.delete({ id })
   }
+
+  async updateMovieRating(movie_id: number, newRating: number) {
+    const queryRunner = this.movieRepository.manager.connection.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const movie = await queryRunner.manager.findOne(Movie, {
+        where: { id: movie_id },
+        lock: { mode: 'pessimistic_write' }, // Lock the record for writing
+      });
+
+      if (!movie) {
+        throw new NotFoundException(`Movie with ID ${movie_id} not found`);
+      }
+
+      const newMovieCount = movie.vote_count + 1;
+      const newAvgRating = (movie.average_rating * movie.vote_count + newRating) / newMovieCount;
+      const roundedAvgRating = parseFloat(newAvgRating.toFixed(2));
+
+      await queryRunner.manager.update(Movie, movie_id, {
+        vote_count: newMovieCount,
+        average_rating: roundedAvgRating,
+      });
+
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  }
 }

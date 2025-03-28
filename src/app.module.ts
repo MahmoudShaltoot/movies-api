@@ -15,6 +15,7 @@ import { RedisService } from './redis/redis.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MoviesUsersRatingModule } from './movies-users-rating/movies-users-rating.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { MoviesUsersRatingModule } from './movies-users-rating/movies-users-rati
     }),
       TypeOrmModule.forRoot(dataSourceOptions),
       CacheModule.register({isGlobal: true}),
+      EventEmitterModule.forRoot(),
       GenresModule,
       TmdbModule,
       HttpModule,
