@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import * as _ from 'lodash'
+import { TmdbMovie } from '../tmdb/interface/tmdb.interface';
 @Injectable()
 export class MoviesService {
   constructor(

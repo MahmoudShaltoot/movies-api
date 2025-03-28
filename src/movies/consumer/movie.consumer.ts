@@ -2,6 +2,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { MoviesService } from '../movies.service';
+import { TmdbMovie } from '../../tmdb/interface/tmdb.interface';
 
 @Controller()
 export class MovieConsumer {
