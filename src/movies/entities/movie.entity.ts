@@ -1,5 +1,6 @@
 import { Min } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { MoviesUsersRating } from "../../movies-users-rating/entities/movies-users-rating.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 @Entity('movies')
 export class Movie {
   @PrimaryGeneratedColumn()
@@ -36,4 +37,7 @@ export class Movie {
   @Column({ default: 0 })
   @Min(0)
   average_rating: Number;
+
+  @OneToMany(() => MoviesUsersRating, (rating) => rating.movie)
+  ratings: MoviesUsersRating[];
 }
