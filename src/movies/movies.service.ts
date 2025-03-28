@@ -47,8 +47,30 @@ export class MoviesService {
     return this.movieRepository.save(movie);
   }
 
-  async findAll(): Promise<Movie[]> {
-    return this.movieRepository.find()
+  async findAll(filters: Record<string, any>): Promise<Movie[]> {
+    const queryBuilder = this.movieRepository.createQueryBuilder('movie');
+
+    if (filters.title) {
+      queryBuilder.andWhere('movie.title LIKE :title', { title: `%${filters.title}%` });
+    }
+    if (filters.genre) {
+      const genres = Array.isArray(filters.genre) ? filters.genre : [filters.genre];
+      queryBuilder.andWhere('movie.genre_ids && ARRAY[:...genres]', { genres });
+    }
+    if (filters.release_date) {
+      queryBuilder.andWhere('movie.release_date = :release_date', { release_date: filters.release_date });
+    }
+    if (filters.sortBy === 'average_rating') {
+      const sortOrder = filters.sortOrder === 'asc' ? 'ASC' : 'DESC';
+      queryBuilder.orderBy('movie.average_rating', sortOrder);
+    }
+    
+    const page = filters.page ? parseInt(filters.page, 10) : 1;
+    const limit = filters.limit ? parseInt(filters.limit, 10) : 10;
+    const offset = (page - 1) * limit;
+
+    queryBuilder.skip(offset).take(limit);
+    return queryBuilder.getMany();
   }
 
   async findOne(id: number): Promise<Movie> {
