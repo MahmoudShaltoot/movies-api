@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Run test cases before starting the app
-CMD npm run test & npm run start:dev
+CMD npm run test & npm run seed & npm run start:dev
