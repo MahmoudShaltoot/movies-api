@@ -16,6 +16,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MoviesUsersRatingModule } from './movies-users-rating/movies-users-rating.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     }),
       TypeOrmModule.forRoot(dataSourceOptions),
       CacheModule.register({isGlobal: true}),
+      ScheduleModule.forRoot(),
       EventEmitterModule.forRoot(),
       GenresModule,
       TmdbModule,
