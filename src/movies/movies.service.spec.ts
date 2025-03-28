@@ -10,6 +10,16 @@ describe('MoviesService', () => {
   let mockMovieRepository;
   let repository;
 
+  const mockQueryBuilder = {
+    select: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    skip: jest.fn().mockReturnThis(),
+    take: jest.fn().mockReturnThis(),
+    getOne: jest.fn().mockImplementation((createMovieDto) => createMovie(createMovieDto)),
+    getMany: jest.fn().mockResolvedValue([createMovie(), createMovie()]),
+  };
+
   beforeEach(async () => {
     mockMovieRepository = {
       create: jest.fn().mockImplementation((createMovieDto) => createMovie(createMovieDto)),
@@ -18,7 +28,8 @@ describe('MoviesService', () => {
       findOne: jest.fn().mockResolvedValue(createMovie()),
       findOneBy: jest.fn().mockResolvedValue(createMovie()),
       update: jest.fn().mockResolvedValue({ "affected": 1 }),
-      delete: jest.fn().mockResolvedValue({ "affected": 1 })
+      delete: jest.fn().mockResolvedValue({ "affected": 1 }),
+      createQueryBuilder: jest.fn(() => mockQueryBuilder),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -87,9 +98,9 @@ describe('MoviesService', () => {
 
   describe('findAll', () => {
     it('should return an array of movies', async () => {
-      const result = await service.findAll();
+      const filters = { page: 1, limit: 10 };
+      const result = await service.findAll(filters);
 
-      expect(mockMovieRepository.find).toHaveBeenCalled()
       expect(result).toHaveLength(2);
     });
   });

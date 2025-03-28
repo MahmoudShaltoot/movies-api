@@ -1,9 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Req, UseGuards, Query } from '@nestjs/common';
 import { MoviesUsersRatingService } from './movies-users-rating.service';
-import { CreateMoviesUsersRatingDto } from './dto/create-movies-users-rating.dto';
-import { UpdateMoviesUsersRatingDto } from './dto/update-movies-users-rating.dto';
 import { MovieUserRatingDto } from './dto/movie-user-rating.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('movie')
 export class MoviesUsersRatingController {

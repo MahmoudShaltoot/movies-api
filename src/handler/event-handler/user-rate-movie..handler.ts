@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
-import { MoviesService } from "src/movies/movies.service";
+import { MoviesService } from "../../movies/movies.service";
 
 @Injectable()
 export class UserRateMovieEventHandler {
