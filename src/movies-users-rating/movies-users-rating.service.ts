@@ -29,7 +29,7 @@ export class MoviesUsersRatingService {
     });
     const createdRating = await this.usersRatingRepo.save(rating);
 
-    this.eventEmitter.emit('USER_RATE_MOVIE', { movie_id: createdRating.movie.id, rating: createdRating.rating})
+    this.eventEmitter.emitAsync('USER_RATE_MOVIE', { movie_id: createdRating.movie.id, newRating: createdRating.rating})
 
     return createdRating;
   }
