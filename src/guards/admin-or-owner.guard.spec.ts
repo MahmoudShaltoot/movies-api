@@ -1,4 +1,4 @@
-import { UsersService } from "../user/user.service";
+import { UsersService } from "../user/users.service";
 import { AdminOrOwnerGuard } from "./admin-or-owner.guard";
 import { Test, TestingModule } from "@nestjs/testing";
 
