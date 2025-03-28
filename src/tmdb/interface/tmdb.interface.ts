@@ -1,4 +1,4 @@
-interface TmdbMovie {
+export interface TmdbMovie {
   id: number,
   backdrop_path: string,
   genre_ids: number[]
@@ -15,7 +15,7 @@ interface TmdbMovie {
   vote_count: number
 }
 
-interface TmdbResponse {
+export interface TmdbResponse {
   page: number,
   results: TmdbMovie[],
   total_pages: number,

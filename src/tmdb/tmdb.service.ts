@@ -6,6 +6,7 @@ import Bottleneck from 'bottleneck';
 import { RedisService } from '../redis/redis.service';
 import * as _ from 'lodash'
 import { ClientProxy } from '@nestjs/microservices';
+import { TmdbResponse } from './interface/tmdb.interface';
 
 // Number of pages to fetch, default = 10 pages to avoid overwhelming TMDB quota  
 const MAX_PAGES_TO_FETCH = process.env.MAX_PAGES_TO_FETCH === "Infinity"
