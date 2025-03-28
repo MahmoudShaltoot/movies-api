@@ -89,10 +89,11 @@ export class MoviesService {
 
       const newMovieCount = movie.vote_count + 1;
       const newAvgRating = (movie.average_rating * movie.vote_count + newRating) / newMovieCount;
+      const roundedAvgRating = parseFloat(newAvgRating.toFixed(2));
 
       await queryRunner.manager.update(Movie, movie_id, {
         vote_count: newMovieCount,
-        average_rating: newAvgRating,
+        average_rating: roundedAvgRating,
       });
 
       await queryRunner.commitTransaction();
