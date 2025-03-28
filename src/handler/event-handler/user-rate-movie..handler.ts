@@ -6,7 +6,7 @@ import { MoviesService } from "src/movies/movies.service";
 export class UserRateMovieEventHandler {
 	constructor(private readonly moviesService: MoviesService) {}
 
-	@OnEvent('USER_RATE_MOVIES')
+	@OnEvent('USER_RATE_MOVIE')
 	async handleUserRateMovieEvent(movie_id: number, newRating: number) {
         this.moviesService.updateMovieRating(movie_id, newRating)
     }
