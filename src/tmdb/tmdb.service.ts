@@ -7,6 +7,7 @@ import { RedisService } from '../redis/redis.service';
 import * as _ from 'lodash'
 import { ClientProxy } from '@nestjs/microservices';
 import { TmdbResponse } from './interface/tmdb.interface';
+import { Cron } from '@nestjs/schedule';
 
 // Number of pages to fetch, default = 10 pages to avoid overwhelming TMDB quota  
 const MAX_PAGES_TO_FETCH = process.env.MAX_PAGES_TO_FETCH === "Infinity"
@@ -19,6 +20,7 @@ const limiter = new Bottleneck({
   minTime: parseInt(process.env.TMDB_MIN_TIME || '200', 10),     // Minimum time (ms) between requests (200ms = 5 requests/sec)
 });
 
+const SYNC_TMDB_CRON_TIME = process.env.SYNC_TMDB_CRON_TIME || '0 0 * * *'; // Sync movies cron time, default = daily at midnight
 @Injectable()
 export class TmdbService {
   private readonly apiUrl;
@@ -34,6 +36,7 @@ export class TmdbService {
     this.apiKey = configService.get<string>('TMDB_API_KEY');
   }
 
+  @Cron(SYNC_TMDB_CRON_TIME)
   async syncTMDBmovies() {
     let pageDate: TmdbResponse, page = 0;
     do {
