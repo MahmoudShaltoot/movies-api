@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
@@ -17,7 +17,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    const isValid: boolean = bcrypt.compareSync(password, user.password);
+    const isValid: boolean = bcrypt.compareSync(password, user.password as string);
     if (!isValid) {
       throw new BadRequestException('Incorrect password');
     }
