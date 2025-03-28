@@ -1,18 +1,19 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
+import { AuthGuard } from './auth.guard';
 
 @Injectable()
-export class AdminOrOwnerGuard implements CanActivate {
-  constructor(private readonly usersService: UsersService) { }
-
-  async canActivate(
-    context: ExecutionContext,
-  ): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const user = await this.usersService.findOne(request.params.id);
-    if (user.id == request.user.id || request.user.idAdmin) {
-      return true
+export class AdminOrOwnerGuard extends AuthGuard {
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> {
+    const isAuthenticated = super.canActivate(context);
+    if (!isAuthenticated) {
+      return false;
     }
-    throw new ForbiddenException()
+
+    const request = context.switchToHttp().getRequest();
+
+    if (request.user.id == request.query.id || request.user.isAdmin) {
+      return true;
+    }
+    throw new ForbiddenException();
   }
 }
