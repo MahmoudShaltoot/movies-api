@@ -9,8 +9,8 @@ export class UsersController {
   constructor(private readonly UsersService: UsersService) { }
 
   @Get()
-  findAll(@Query('page') page: number = 0, @Query('pageSize') pageSize: number = 10,) {
-    return this.UsersService.findAll(page, pageSize);
+  findAll(@Query('page') page: number = 0, @Query('limit') limit: number = 10,) {
+    return this.UsersService.findAll(page, limit);
   }
 
   @Get(':id')
