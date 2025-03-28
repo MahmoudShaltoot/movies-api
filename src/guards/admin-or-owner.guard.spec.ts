@@ -14,9 +14,11 @@ describe('AdminOrOwnerGuard', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AdminOrOwnerGuard,
-        { provide: UsersService, useValue: mockJwtService },
+      providers: [AdminOrOwnerGuard, JwtService,
+        { 
+          provide: UsersService,
+          useValue: mockJwtService
+        },
       ],
     }).compile();
 

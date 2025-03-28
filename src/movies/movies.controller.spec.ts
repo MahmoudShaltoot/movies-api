@@ -4,6 +4,7 @@ import { MoviesService } from './movies.service';
 import { createMovie } from './factory/movie.factory';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
+import { JwtService } from '@nestjs/jwt';
 
 describe('MoviesController', () => {
   let controller: MoviesController;
@@ -22,8 +23,7 @@ describe('MoviesController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [MoviesController],
-      providers: [
-        MoviesService,
+      providers: [MoviesService, JwtService,
         {
           provide: getRepositoryToken(Movie),
           useValue: mockMovieRepository

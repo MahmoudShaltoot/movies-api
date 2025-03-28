@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } f
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
-import { AdminOrOwnerGuard } from 'src/guards/admin-or-owner.guard';
+import { AdminOrOwnerGuard } from '../guards/admin-or-owner.guard';
 
 @Controller('users')
 export class UsersController {
