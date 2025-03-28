@@ -1,11 +1,11 @@
-import { Injectable, Req } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateMoviesUsersRatingDto } from './dto/create-movies-users-rating.dto';
-import { UpdateMoviesUsersRatingDto } from './dto/update-movies-users-rating.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoviesUsersRating } from './entities/movies-users-rating.entity';
 import { Repository } from 'typeorm';
 import { MoviesService } from 'src/movies/movies.service';
 import { UsersService } from 'src/users/users.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class MoviesUsersRatingService {
@@ -14,6 +14,7 @@ export class MoviesUsersRatingService {
     private readonly usersRatingRepo: Repository<MoviesUsersRating>,
     private readonly moviesService: MoviesService,
     private readonly usersService: UsersService,
+    private readonly eventEmitter: EventEmitter2,
   ) { }
   async create(createMoviesUsersRatingDto: CreateMoviesUsersRatingDto) {
     const user = await this.usersService.findOneby({ id: createMoviesUsersRatingDto.user_id });
@@ -21,12 +22,16 @@ export class MoviesUsersRatingService {
 
     const movie = await this.moviesService.findOne(createMoviesUsersRatingDto.movie_id);
 
-    const createdRating = this.usersRatingRepo.create({
+    const rating = this.usersRatingRepo.create({
       rating: createMoviesUsersRatingDto.rating,
       user: user,
       movie: movie
     });
-    return await this.usersRatingRepo.save(createdRating);
+    const createdRating = await this.usersRatingRepo.save(rating);
+
+    this.eventEmitter.emit('USER_RATE_MOVIE', { movie_id: createdRating.movie.id, rating: createdRating.rating})
+
+    return createdRating;
   }
 
   async findAll(page: number, page_size: number) {
