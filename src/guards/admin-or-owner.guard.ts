@@ -9,9 +9,8 @@ export class AdminOrOwnerGuard extends AuthGuard {
       return false;
     }
 
-    const request = context.switchToHttp().getRequest();
-
-    if (request.user.id == request.query.id || request.user.isAdmin) {
+    const request = context.switchToHttp().getRequest();    
+    if (request.user.id == request.params.id || request.user.isAdmin) {
       return true;
     }
     throw new ForbiddenException();
