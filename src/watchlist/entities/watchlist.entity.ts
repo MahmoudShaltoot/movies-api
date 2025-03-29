@@ -1,8 +1,9 @@
 import { Movie } from "src/movies/entities/movie.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity('watchlists')
+@Unique(['user', 'movie'])
 export class Watchlist {
   @PrimaryGeneratedColumn()
   id: number;
