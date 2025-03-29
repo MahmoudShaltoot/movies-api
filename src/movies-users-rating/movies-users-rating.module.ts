@@ -9,10 +9,12 @@ import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
 import { Movie } from '../movies/entities/movie.entity';
 import { UserRateMovieEventHandler } from '../handler/event-handler/user-rate-movie..handler';
+import { GenresService } from '../genres/genres.service';
+import { Genre } from '../genres/entities/genre.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MoviesUsersRating, User, Movie])],
+  imports: [TypeOrmModule.forFeature([MoviesUsersRating, User, Movie, Genre])],
   controllers: [MoviesUsersRatingController],
-  providers: [MoviesUsersRatingService, JwtService, UsersService, MoviesService, UserRateMovieEventHandler],
+  providers: [MoviesUsersRatingService, JwtService, UsersService, GenresService, MoviesService, UserRateMovieEventHandler],
 })
 export class MoviesUsersRatingModule {}

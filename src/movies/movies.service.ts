@@ -6,11 +6,13 @@ import { Movie } from './entities/movie.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import * as _ from 'lodash'
 import { TmdbMovie } from '../tmdb/interface/tmdb.interface';
+import { GenresService } from '../genres/genres.service';
 @Injectable()
 export class MoviesService {
   constructor(
     @InjectRepository(Movie)
     private readonly movieRepository: Repository<Movie>,
+    private readonly genreService: GenresService
   ) { }
 
   async create(createMovieDto: CreateMovieDto): Promise<Movie> {
@@ -48,15 +50,16 @@ export class MoviesService {
     return this.movieRepository.save(movie);
   }
 
-  async findAll(filters: Record<string, any>): Promise<Movie[]> {
+  async findAll(filters: Record<string, any>): Promise<Movie[]> {    
     const queryBuilder = this.movieRepository.createQueryBuilder('movie');
 
     if (filters.title) {
       queryBuilder.andWhere('movie.title LIKE :title', { title: `%${filters.title}%` });
     }
     if (filters.genre) {
-      const genres = Array.isArray(filters.genre) ? filters.genre : [filters.genre];
-      queryBuilder.andWhere('movie.genre_ids && ARRAY[:...genres]', { genres });
+      const genresFilter = JSON.parse(filters.genre);
+      const genres = await this.genreService.findByNames(genresFilter)      
+      queryBuilder.andWhere('movie.genre_ids && ARRAY[:...genres]::int[]', { genres });
     }
     if (filters.release_date) {
       queryBuilder.andWhere('movie.release_date = :release_date', { release_date: filters.release_date });
