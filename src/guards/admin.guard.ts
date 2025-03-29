@@ -12,7 +12,6 @@ export class AdminGuard extends AuthGuard {
     
     const request = context.switchToHttp().getRequest();
     if (!request.user.isAdmin) {
-      console.log(request.user);
       throw new ForbiddenException('Forbidden action!');
     }
     return true;

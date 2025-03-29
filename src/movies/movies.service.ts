@@ -82,7 +82,7 @@ export class MoviesService {
     return movie;
   }
 
-  async update(id: number, updateMovieDto: UpdateMovieDto): Promise<UpdateResult> {
+  async update(id: number, updateMovieDto: Partial<UpdateMovieDto>): Promise<UpdateResult> {
     const movie = await this.movieRepository.findOneBy({ id })
     if (!movie) {
       throw new NotFoundException(`Movie with ID ${id} not found`);
