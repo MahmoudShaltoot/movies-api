@@ -2,6 +2,7 @@ import { Max, Min } from "class-validator";
 import { MoviesUsersRating } from "../../movies-users-rating/entities/movies-users-rating.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
+import { Watchlist } from "../../watchlist/entities/watchlist.entity";
 @Entity('movies')
 export class Movie {
   @ApiProperty({
@@ -98,4 +99,7 @@ export class Movie {
   })
   @OneToMany(() => MoviesUsersRating, (rating) => rating.movie)
   ratings: MoviesUsersRating[];
+
+  @OneToMany(() => Watchlist, (watchlist) => watchlist.movie)
+  watchlists: Watchlist[];
 }

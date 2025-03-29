@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { MoviesUsersRating } from '../../movies-users-rating/entities/movies-users-rating.entity';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Watchlist } from '../../watchlist/entities/watchlist.entity';
 
 @Entity('users')
 export class User {
@@ -37,4 +38,7 @@ export class User {
   @ApiProperty({ description: 'List of ratings associated with the user', type: [Number] })
   @OneToMany(() => MoviesUsersRating, (rating) => rating.user)
   ratings: number[];
+
+  @OneToMany(() => Watchlist, (watchlist) => watchlist.user)
+  watchlists: Watchlist[];
 }
