@@ -4,6 +4,7 @@ import { GenresService } from './genres.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Genre } from './entities/genre.entity';
 import { createGenre } from './factory/genre.factory';
+import { JwtService } from '@nestjs/jwt';
 
 describe('GenresController', () => {
   let controller: GenresController;
@@ -20,6 +21,7 @@ describe('GenresController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [GenresController],
       providers: [
+        JwtService,
         {
           provide: GenresService,
           useValue: mockGenresService,
