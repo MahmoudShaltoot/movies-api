@@ -57,8 +57,8 @@ export class MoviesService {
       queryBuilder.andWhere('movie.title LIKE :title', { title: `%${filters.title}%` });
     }
     if (filters.genre) {
-      const genresFilter = JSON.parse(filters.genre);
-      const genres = await this.genreService.findByNames(genresFilter)      
+      const genresArray = JSON.parse(filters.genre);
+      const genres = await this.genreService.findByNames(genresArray)      
       queryBuilder.andWhere('movie.genre_ids && ARRAY[:...genres]::int[]', { genres });
     }
     if (filters.release_date) {
