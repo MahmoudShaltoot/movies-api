@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Movie } from "src/movies/entities/movie.entity";
-import { User } from "src/users/entities/user.entity";
+import { Movie } from "../../movies/entities/movie.entity";
+import { User } from "../../users/entities/user.entity";
 import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity('watchlists')
