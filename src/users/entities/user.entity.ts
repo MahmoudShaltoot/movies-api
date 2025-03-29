@@ -39,6 +39,10 @@ export class User {
   @OneToMany(() => MoviesUsersRating, (rating) => rating.user)
   ratings: number[];
 
+  @ApiProperty({
+    description: 'List of user watchlist movies',
+    type: () => [Watchlist],
+  })
   @OneToMany(() => Watchlist, (watchlist) => watchlist.user)
   watchlists: Watchlist[];
 }

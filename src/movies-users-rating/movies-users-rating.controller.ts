@@ -2,11 +2,12 @@ import { Controller, Get, Post, Body, Param, Req, UseGuards, Query } from '@nest
 import { MoviesUsersRatingService } from './movies-users-rating.service';
 import { MovieUserRatingDto } from './dto/movie-user-rating.dto';
 import { AuthGuard } from '../guards/auth.guard';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateMoviesUsersRatingDto } from './dto/create-movies-users-rating.dto';
 import { MoviesUsersRating } from './entities/movies-users-rating.entity';
 
 @Controller('movie')
+@ApiTags('User rating')
 export class MoviesUsersRatingController {
   constructor(private readonly moviesUsersRatingService: MoviesUsersRatingService) { }
 
