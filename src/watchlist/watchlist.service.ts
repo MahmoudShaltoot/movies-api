@@ -3,9 +3,9 @@ import { UpdateWatchlistDto } from './dto/update-watchlist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Watchlist } from './entities/watchlist.entity';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
-import { Movie } from 'src/movies/entities/movie.entity';
-import { GenresService } from 'src/genres/genres.service';
+import { User } from '../users/entities/user.entity';
+import { Movie } from '../movies/entities/movie.entity';
+import { GenresService } from '../genres/genres.service';
 
 @Injectable()
 export class WatchlistService {
