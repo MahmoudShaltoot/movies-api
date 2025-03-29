@@ -28,6 +28,16 @@ export class GenresService {
     return genre;
   }
 
+  async findByNames(genre: string[]): Promise<number[]> {
+    const genres = await this.genreRepository
+    .createQueryBuilder('genre')
+    .where('genre.name IN (:...genreNames)', { genreNames: genre })
+    .select('genre.external_id')
+    .getMany();
+
+    return genres.map(genre => genre.external_id);
+  }
+
   async deleteById(id: number) {    
     const genre = await this.genreRepository.findOneBy({ id });
     if (!genre) {

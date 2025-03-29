@@ -9,20 +9,28 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { User } from '../users/entities/user.entity';
 import { Movie } from '../movies/entities/movie.entity';
 import { JwtService } from '@nestjs/jwt';
+import { GenresService } from '../genres/genres.service';
+import { Genre } from '../genres/entities/genre.entity';
 
 describe('MoviesUsersRatingController', () => {
   let controller: MoviesUsersRatingController;
   let mockUsersRatingRepository;
   let mockUsersRepository;
   let mockMoviesRepository;
+  let mockGenresRepository;
+
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [MoviesUsersRatingController],
-      providers: [MoviesUsersRatingService, UsersService, MoviesService, JwtService,
+      providers: [MoviesUsersRatingService, UsersService, MoviesService, JwtService, GenresService,
         {
           provide: getRepositoryToken(MoviesUsersRating),
           useValue: mockUsersRatingRepository
+        },
+        {
+          provide: getRepositoryToken(Genre),
+          useValue: mockGenresRepository
         },
         {
           provide: getRepositoryToken(User),

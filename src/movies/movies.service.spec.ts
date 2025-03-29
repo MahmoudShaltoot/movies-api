@@ -4,10 +4,13 @@ import { createMovie } from './factory/movie.factory';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
 import { Repository } from 'typeorm';
+import { GenresService } from '../genres/genres.service';
+import { Genre } from '../genres/entities/genre.entity';
 
 describe('MoviesService', () => {
   let service: MoviesService;
   let mockMovieRepository;
+  let mockGenreRepository;
   let repository;
 
   const mockQueryBuilder = {
@@ -35,9 +38,14 @@ describe('MoviesService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         MoviesService,
+        GenresService,
         {
           provide: getRepositoryToken(Movie),
           useValue: mockMovieRepository
+        },
+        {
+          provide: getRepositoryToken(Genre),
+          useValue: mockGenreRepository
         }
       ],
     }).compile();
@@ -98,7 +106,7 @@ describe('MoviesService', () => {
 
   describe('findAll', () => {
     it('should return an array of movies', async () => {
-      const filters = { page: 1, limit: 10 };
+      const filters = { page: '1', limit: '10' };
       const result = await service.findAll(filters);
 
       expect(result).toHaveLength(2);
