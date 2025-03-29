@@ -5,6 +5,7 @@ import { Watchlist } from './entities/watchlist.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Movie } from 'src/movies/entities/movie.entity';
+import { GenresService } from 'src/genres/genres.service';
 
 @Injectable()
 export class WatchlistService {
@@ -14,6 +15,7 @@ export class WatchlistService {
     private userRepository: Repository<User>,
     @InjectRepository(Movie)
     private movieRepository: Repository<Movie>,
+    private readonly genresService: GenresService
   ) { }
 
   async addToWatchlist(userId: number, movieId: number): Promise<any> {
@@ -35,18 +37,23 @@ export class WatchlistService {
     return this.watchlistRepository.save(watchlistItem);
   }
 
-  async findAll(userId: number, page: number, limit: number) {
-    console.log(userId, page, limit);
+  async findAll(userId: number, filters: Record<string, any>) {
+    const queryBuilder = this.watchlistRepository.createQueryBuilder('watchlist')
+      .leftJoinAndSelect('watchlist.movie', 'movie')
+      .where('watchlist.user_id = :userId', { userId })
 
-    const user = await this.userRepository.findOne({
-      where: { id: userId },
-      relations: ['watchlists', 'watchlists.movie']
-    });
-    if (!user) {
-      throw new NotFoundException('User or Movie not found');
+    if (filters.genre?.length > 0) {
+      const genresArray = JSON.parse(filters.genre);
+      const genres = await this.genresService.findByNames(genresArray);      
+      queryBuilder.andWhere('movie.genre_ids && ARRAY[:...genres]::int[]', { genres });
     }
 
-    return user.watchlists.map((watchlist) => watchlist.movie);
+    const page = filters.page ? parseInt(filters.page, 10) : 1;
+    const limit = filters.limit ? parseInt(filters.limit, 10) : 10;
+    const offset = (page - 1) * limit;
+
+    queryBuilder.skip(offset).take(limit);
+    return queryBuilder.getMany();
   }
 
   async remove(userId: number, movieId: number) {

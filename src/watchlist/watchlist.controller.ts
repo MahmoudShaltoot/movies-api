@@ -15,8 +15,8 @@ export class WatchlistController {
   }
 
   @Get('')
-  findAll(@Query('page') page: number = 0, @Query('limit') limit: number = 10, @Req() request) {
-    return this.watchlistService.findAll(request.user.id, page, limit);
+  findAll(@Query() filters: Record<string, any>, @Req() request) {
+    return this.watchlistService.findAll(request.user.id, filters);
   }
 
   @Delete(':movieId')
