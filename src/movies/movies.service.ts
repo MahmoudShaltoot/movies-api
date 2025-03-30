@@ -20,11 +20,10 @@ export class MoviesService {
       where: [
         { title: createMovieDto.title },
         { original_title: createMovieDto.original_language },
-        { poster_path: createMovieDto.poster_path }
       ]
     })
     if (isExist) {
-      throw new ConflictException('Movie already exist, Please check [ "Title" , "original_title" and "poster_path"')
+      throw new ConflictException('Movie already exist, Please check [ "title" , "original_title"')
     }
     const movie = await this.movieRepository.create(createMovieDto)
     return this.movieRepository.save(movie)
