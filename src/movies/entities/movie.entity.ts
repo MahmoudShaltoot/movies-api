@@ -30,7 +30,7 @@ export class Movie {
     description: 'Path to the poster image of the movie',
     example: '/poster_path.jpg',
   })
-  @Column({ unique: true })
+  @Column({ nullable: true })
   poster_path: string;
 
   @ApiProperty({
