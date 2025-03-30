@@ -29,11 +29,7 @@ export class UsersService {
   }
 
   async findOneby(option: FindOptionsWhere<User>) {
-    const user = await this.usersRepository.findOneBy(option);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    return user;
+    return this.usersRepository.findOneBy(option);
   }
 
   async update(id: number, updateUserDto: Partial<UpdateUserDto>) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMoviesUsersRatingDto } from './dto/create-movies-users-rating.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoviesUsersRating } from './entities/movies-users-rating.entity';
@@ -18,6 +18,7 @@ export class MoviesUsersRatingService {
   ) { }
   async create(createMoviesUsersRatingDto: CreateMoviesUsersRatingDto) {
     const user = await this.usersService.findOneby({ id: createMoviesUsersRatingDto.user_id });
+    if(!user) throw new NotFoundException('User not found');
     delete user.password;
 
     const movie = await this.moviesService.findOne(createMoviesUsersRatingDto.movie_id);
