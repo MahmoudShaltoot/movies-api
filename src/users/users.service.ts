@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 import { UserDto } from './dto/user.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -36,6 +37,10 @@ export class UsersService {
     const user = await this.usersRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User not found');
+    }
+    if(updateUserDto.password) {
+      const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
+      updateUserDto.password = hashedPassword
     }
     const updatedUser = await  this.usersRepository.save({ ...user, ...updateUserDto });
     return plainToClass(UserDto, updatedUser, { excludeExtraneousValues: true });
