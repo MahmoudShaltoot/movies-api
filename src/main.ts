@@ -18,7 +18,7 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 8080);
 
   const RABBITMQ_URL = process.env.RABBITMQ_URL;
   const mqService = await NestFactory.createMicroservice(AppModule, <RmqOptions>{
