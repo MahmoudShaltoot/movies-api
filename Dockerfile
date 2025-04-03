@@ -16,8 +16,8 @@ COPY . .
 # Build the NestJS app (usually outputs to `dist/` folder)
 RUN npm run build
 
-# Expose the port your NestJS app will run on (default is 3000)
-EXPOSE 3000
+# Expose the port your NestJS app will run on (default is 8080)
+EXPOSE 8080
 
 # Run test cases before starting the app
 CMD npm run test & npm run migration:run && npm run seed & npm run start:dev
