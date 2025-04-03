@@ -37,7 +37,7 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Invalid input data' })
   @ApiResponse({ status: 403, description: 'Forbidden: Only admins or the user themselves can update' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  update(@Param('id') id: string, @Body() updateUserDto: Partial<UpdateUserDto>) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.UsersService.update(+id, updateUserDto);
   }
 
