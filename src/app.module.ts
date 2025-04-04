@@ -18,6 +18,7 @@ import { MoviesUsersRatingModule } from './movies-users-rating/movies-users-rati
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { WatchlistModule } from './watchlist/watchlist.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { WatchlistModule } from './watchlist/watchlist.module';
       UsersModule,
       AuthModule,
       MoviesUsersRatingModule,
-      WatchlistModule
+      WatchlistModule,
+      RedisModule
     ],
   controllers: [AppController],
   providers: [AppService, TmdbService, RedisService],
