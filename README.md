@@ -40,6 +40,9 @@ $ npm install
 ## Compile and run the project
 
 ```bash
+# copy .env.example to .env
+cp .env.example .env
+
 # Initialize movies database
 ts-node src/scripts/init-database.ts
 
