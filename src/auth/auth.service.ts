@@ -12,7 +12,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<User> {
+  async validateUser(username: string, password: string): Promise<User | null> {
     const user = await this.usersService.findOneby({ username });
     if (!user) {
       throw new NotFoundException('User not found');
