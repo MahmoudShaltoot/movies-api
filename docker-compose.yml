@@ -54,7 +54,7 @@ services:
       DB_NAME: ${POSTGRES_DB}
       REDIS_HOST: redis # Use the service name of the Redis container
       REDIS_PORT: 6379
-      RABBITMQ_URL: ${RABBITMQ_URL}
+      RABBITMQ_URL: "amqp://rabbitmq"
     depends_on:
       - postgres
       - redis
