@@ -24,7 +24,7 @@ export class UsersController {
   @ApiParam({ name: 'id', type: String, description: 'ID of the user to retrieve' })
   @ApiResponse({ status: 200, description: 'User retrieved successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.UsersService.findOne(+id);
   }
 
@@ -37,7 +37,7 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Invalid input data' })
   @ApiResponse({ status: 403, description: 'Forbidden: Only admins or the user themselves can update' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  update(@Param('id') id: string, @Body() updateUserDto: Partial<UpdateUserDto>) {
+  update(@Param('id') id: number, @Body() updateUserDto: Partial<UpdateUserDto>) {
     return this.UsersService.update(+id, updateUserDto);
   }
 
@@ -49,7 +49,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'User deleted successfully', type: UserDto })
   @ApiResponse({ status: 403, description: 'Forbidden: Only admins or the user themselves can delete' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.UsersService.remove(+id);
   }
 }
