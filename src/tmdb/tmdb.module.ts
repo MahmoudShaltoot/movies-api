@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { TmdbService } from './tmdb.service';
 import { RedisService } from '../redis/redis.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RedisModule } from 'src/redis/redis.module';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [
