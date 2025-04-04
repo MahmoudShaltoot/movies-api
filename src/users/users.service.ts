@@ -47,7 +47,6 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    const deleteUser = this.usersRepository.remove(user);
-    return plainToClass(UserDto, deleteUser, { excludeExtraneousValues: true });
+    return this.usersRepository.remove(user);
   }
 }
