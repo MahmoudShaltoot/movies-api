@@ -16,6 +16,7 @@ describe('GenresController', () => {
       find: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Comedy' })),
       createGenre: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Horror' })),
       findById: jest.fn().mockResolvedValue(createGenre({ id: 1, name: 'Comedy' })),
+      deleteById: jest.fn().mockImplementation((id) =>  ({ affected: 1 }) ),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -55,5 +56,12 @@ describe('GenresController', () => {
     expect(genre).toBeDefined();
     expect(genre.name).toBe('Horror');
     expect(service.createGenre).toHaveBeenCalledWith(createGenreDto);
+  });
+
+  it('should delete genre by ID', async () => {
+    const id = 1;
+    const response = await controller.deleteById(id);
+    expect(response).toBeDefined();
+    expect(response.affected).toBe(1);
   });
 });
