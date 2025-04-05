@@ -34,6 +34,38 @@ docker-compose up # App started listening on PORT 8080
 ```
 
 ## Run the project on local machine
+
+## Prerequisites
+Before running the project locally, you need to have the following services installed and running:
+
+**MacOS installation:**
+### 1. **PostgreSQL** (version 16+)
+  - Install **PostgreSQL**
+
+      ```bash
+      brew install postgresql
+
+      brew services start postgresql
+      ```
+
+### 2. **Redis (latest stable version)**
+  - Install **Redis**
+
+      ```bash
+      brew install redis
+
+      brew services start redis
+      ```
+
+### 2. **RabbitMQ**
+  - Install **RabbitMQ**
+
+      ```bash
+      brew install rabbitmq
+
+      brew services start rabbitmq
+      ```
+
 ## Project setup
 
 ```bash
