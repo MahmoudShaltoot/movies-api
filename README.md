@@ -109,6 +109,13 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## API swagger Documentation 
+
+```bash
+# swagger url
+$ http://localhost:8080/api
+```
+
 ## System design
 
 ![Alt Text](https://pouch.jumpshare.com/preview/9ZS3ohN5JWboHcMJuHuQE9Kz1hftLlcij9FB0Hx7Hk4R-KSBmEF0y7nWtmd0F1Cml4oKn3ZhYNDjwl2f6r2LCE0gO4yG0Ad8YoJDFyYlESg)
@@ -120,6 +127,3 @@ $ npm run test:cov
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-
-
-cronjob start daily to 
