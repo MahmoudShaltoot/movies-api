@@ -27,6 +27,9 @@ Nest app to sync TMDB movies.
 
 ## Run the project using docker
 ```bash
+# copy .env.example to .env (TMDB_API_KEY env must be set)
+cp .env.example .env
+
 docker-compose up # App started listening on PORT 8080
 ```
 
@@ -40,7 +43,7 @@ $ npm install
 ## Compile and run the project
 
 ```bash
-# copy .env.example to .env
+# copy .env.example to .env (TMDB_API_KEY env must be set)
 cp .env.example .env
 
 # Initialize movies database
